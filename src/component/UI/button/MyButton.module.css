@@ -1,0 +1,35 @@
+.myBtn {
+    background:white;
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    position: relative;
+    padding: 10px 10px;
+    border: 1px solid;
+    font-weight: bolder;
+    border-image: linear-gradient(180deg, #002984, #3f51b5, #757de8);
+    border-image-slice: 1;
+    margin: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
+}
+.myBtn:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 100%;
+    z-index: -1;
+    background: linear-gradient(180deg,  #757de8, #757de8, #757de8);
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
+}
+.myBtn:hover {
+    background: rgba(255, 255, 255, 0);
+}
+.myBtn:hover:before {
+    bottom: 0;
+    top: auto;
+    height: 100%;
+}

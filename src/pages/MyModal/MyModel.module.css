@@ -1,0 +1,35 @@
+.buttonClose{
+   margin:20px auto 0px auto;
+   padding: 8px;
+   font-weight: bolder;
+    background-color: antiquewhite;
+    border:0;
+    border-radius: 10%;
+    cursor: pointer;
+}
+.myModal{
+    position:fixed;
+    top:0;
+    bottom: 0;
+    right: 0;
+    left:0;
+    display:none;
+    background: rgba(0,0,0, 0.5);
+}
+
+.myModalContent{
+    padding: 25px;
+    background: black;
+    border-radius:16px;
+    color:white;
+    min-width:250px;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.myModal.active{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
