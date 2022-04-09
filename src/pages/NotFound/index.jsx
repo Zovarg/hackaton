@@ -17,7 +17,7 @@ function NotFound() {
             404
           </Typography>
           <Typography variant="h3" gutterBottom>
-            Page not found.
+            Страница не найдена.
           </Typography>
         </Grid>
       </Grid>

@@ -11,7 +11,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import validationSchema from "./validation";
 import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +31,6 @@ function Login() {
     control,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -46,13 +44,8 @@ function Login() {
       const { data: userData } = await api.auth.getProfile();
       auth.setUser(userData);
     } catch (e) {
-      if (e.response.status === 422) {
-        Object.keys(e.response.data.errors).forEach((key) => {
-          setError(key, {
-            type: "manual",
-            message: e.response.data.errors[key],
-          });
-        });
+      if (e.response.status) {
+        console.log(e.response.status)
       }
     } finally {
       setIsLoading(false);

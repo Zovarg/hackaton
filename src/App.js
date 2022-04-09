@@ -10,8 +10,6 @@ import "./App.css";
 import Routes from "./routes/Routes";
 import useAuth from "./hooks/useAuth";
 
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -42,15 +40,15 @@ function App() {
             HealthCare
           </Typography>
           <div className={classes.rightToolbar}>
-            {/*<Button color="inherit" component={Link} to="/">
-              Home
-            </Button>*/}
           </div>
           {auth.isLoaded &&
             (auth.user ? (
               <>
+                <Button color="inherit" component={Link} to="/statistic">
+                  Статистика
+                </Button>
                 <Button color="inherit" component={Link} to="/posts">
-                  {auth.user.username}
+                  Обращения
                 </Button>
                 <Button color="inherit" onClick={onLogOut}>
                   Выйти

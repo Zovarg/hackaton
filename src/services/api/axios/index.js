@@ -1,8 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import api from "../index";
-import useAuth from "../../../hooks/useAuth";
-import UseAuth from "../../../hooks/useAuth";
 
 const axiosInstance = axios.create({
   baseURL: "http://10.2.0.53:3000/api",

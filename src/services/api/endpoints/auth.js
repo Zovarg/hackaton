@@ -7,6 +7,8 @@ const endpoints = {
   form: (data) => axios.post("/create_request", data),
   updateToken: (data) => axios.post("/token/refresh/", data),
   createReview: (data) => axios.post("/create_review", data),
+  deletePost: (data) => axios.delete("/create_review", data),
+  getStats: () => axios.get("/getstats"),
 };
 
 export default endpoints;

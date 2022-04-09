@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useFetching} from "../../hooks/useFetching";
 import api from "../../services/api";
 import Loader from "../../component/UI/Loader/loader";
-import useAuth from "../../hooks/useAuth";
 import {Button, Container, Grid, makeStyles, TextField, Typography} from "@material-ui/core";
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
@@ -20,12 +19,9 @@ const useStyles = makeStyles((theme) => ({
 
 const PostIdPage = () => {
    const params = useParams()
-    const auth = useAuth();
     const [post, setPost] = useState({});
-
     const [fetchPostById, isLoading, error] = useFetching(async (id) => {
         const response = await api.auth.getDate()
-        console.log(response)
         {response.data.map((poster, index)=>{
            if(poster.id==id){
                setPost(poster);
@@ -37,8 +33,8 @@ const PostIdPage = () => {
 
     useEffect(() => {
         fetchPostById(params.id)
-
     }, [])
+
     const classes = useStyles();
     const [isLoadings, setIsLoadings] = useState(false);
     const router= useNavigate()
@@ -63,28 +59,24 @@ const PostIdPage = () => {
                 }
             const redir=()=>router(`/posts`);
             redir();
-
-
         } catch (e) {
-            if (e.response.status === 422) {
-                Object.keys(e.response.data.errors).forEach((key) => {
-                    setError(key, {
-                        type: "manual",
-                        message: e.response.data.errors[key],
-                    });
-                });
-            }
+            if (e.response.status === 422)
+                {
+                    console.log(e.response.status)
+                }
+
         } finally {
             setIsLoadings(false);
         }
     };
+
     return (
         <Container maxWidth="xs" className={classes.root}>
             <h2>Номер обращения: {post.id}</h2>
+            {/*<div>{post.classification.type}</div>*/}
             {isLoading
                 ? <Loader/>
                 :  <div>
-                    {/*<div>Классификация: {post.classification.type}</div>*/}
                         <div><i>Медицинское учреждение: {post.medical_institution} </i></div>
                         <div>Содержание:</div>
                         <div>{post.text} </div>

@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 function Home() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
-  const auth = useAuth();
   const[modal,setModal]=useState(false);
   const {
     control,

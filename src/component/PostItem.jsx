@@ -2,7 +2,6 @@ import React from 'react'
 import MyButton from './UI/button/MyButton'
 import {useNavigate} from 'react-router-dom'
 import cl from "./Profile.module.css"
-//Создание отдельных элементов(команд)
 const PostItem = (props) => {
     const router= useNavigate()
     return (
@@ -17,6 +16,9 @@ const PostItem = (props) => {
                 </div>
                 <MyButton onClick={()=>router(`/posts/${props.post.id}`)}>
                     Открыть
+                </MyButton>
+                <MyButton onClick={() => props.remove(props.post)}>
+                    Удалить
                 </MyButton>
             </div>
     )

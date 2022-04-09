@@ -1,8 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
-import Registration from "../../pages/Registration";
-import Profile from "../../pages/Profile";
+import Profile from "../../pages/ListAppeal";
 import NotFound from "../../pages/NotFound";
 import useAuth from "../../hooks/useAuth";
 import PrivateRoute from "../components/PrivateRoute";
@@ -15,6 +14,8 @@ import {
 } from "@material-ui/core";
 import Agree from "../../pages/Agree";
 import PostIdPage from "../../pages/PostIdPage/PostIdPage";
+import Statistic from "../../pages/Statistic";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,15 @@ function AppRoutes() {
   return auth.isLoaded ? (
     <Routes>
       <Route path="/" element={<Home />} />
+        <Route
+            path="/statistic"
+            exact={true}
+            element={
+                <PrivateRoute>
+                    <Statistic />
+                </PrivateRoute>
+            }
+        />
       <Route
         path="/posts"
         exact={true}

@@ -1,8 +1,7 @@
 import React from 'react'
 import PostItem from "./PostItem";
 import {Container} from "@material-ui/core";
-//Создаём общего список команд с помощью TeamItem
-const PostList = ({posts}) => {
+const PostList = ({posts, remove}) => {
     if(!posts.length){
         return (
             <h1 style={{textAlign:'center'}}>
@@ -15,7 +14,7 @@ const PostList = ({posts}) => {
         <div>
             <Container className="box">
                 {posts.map((post, index)=>
-                    <PostItem key={index+1} post={post}/>
+                    <PostItem remove={remove} key={index+1} post={post}/>
                 )}
             </Container>
         </div>
