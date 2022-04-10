@@ -35,7 +35,7 @@ function AuthProvider(props) {
     setUser(null);
     setToken(null);
     setRefreshToken(null);
-  }, [setToken,setRefreshToken]);//удали SetToken и может заработает access-refresh
+  }, [setToken,setRefreshToken]);
 
   const loadData = useCallback(async () => {
     const tokenData = Cookies.get("access-token");

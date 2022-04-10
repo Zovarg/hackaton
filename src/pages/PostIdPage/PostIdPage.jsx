@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useFetching} from "../../hooks/useFetching";
 import api from "../../services/api";
@@ -7,24 +7,41 @@ import {Button, Container, Grid, makeStyles, TextField, Typography} from "@mater
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import validationSchema from "../PostIdPage/validation";
+import PostIdPageNum from "./PostIdPageNum";
+import PostList from "../../component/PostList";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        margin:'20px auto',
         padding: theme.spacing(3),
+        border:'2px solid black',
+    },
+    but: {
+        background: '#639593',
+        margin:'5px 10px 5px 0'
     },
     buttonSpacing: {
         marginLeft: theme.spacing(1),
+    },
+    bord: {
+        border:'2px solid black',
     },
 }));
 
 const PostIdPage = () => {
    const params = useParams()
-    const [post, setPost] = useState({});
-    const [fetchPostById, isLoading, error] = useFetching(async (id) => {
+    const [value,setValue] = useState('');
+    const [post, setPost] = useState([]);
+    const [state,setState] = useState('');
+    const [fetchPosts,isPostsLoading,postError] = useFetching(async (id) => {
         const response = await api.auth.getDate()
         {response.data.map((poster, index)=>{
            if(poster.id==id){
                setPost(poster);
+               setState(poster.classification.type);
+               reset({
+                   classification: poster.classification.type,
+               });
            }}
         )}
 
@@ -32,7 +49,7 @@ const PostIdPage = () => {
 
 
     useEffect(() => {
-        fetchPostById(params.id)
+        fetchPosts(params.id)
     }, [])
 
     const classes = useStyles();
@@ -44,6 +61,7 @@ const PostIdPage = () => {
         handleSubmit,
         formState: { errors },
         setError,
+        reset,
     } = useForm({
         resolver: yupResolver(validationSchema),
     });
@@ -60,7 +78,7 @@ const PostIdPage = () => {
             const redir=()=>router(`/posts`);
             redir();
         } catch (e) {
-            if (e.response.status === 422)
+            if (e.response.status)
                 {
                     console.log(e.response.status)
                 }
@@ -70,24 +88,70 @@ const PostIdPage = () => {
         }
     };
 
+    const onSubmitFun1 =  (e) => {
+        e.preventDefault()
+        const stroka=`${value}`+` ${post.user_full_name}`
+        setValue(stroka)
+    };
+    const onSubmitFun2 =  (e) => {
+        e.preventDefault()
+        const stroka=`${value}`+` ${post.user_phone}`
+        setValue(stroka)
+    };
+    const onSubmitFun3 =  (e) => {
+        e.preventDefault()
+        let time=post.updated_at.slice(0, 19)
+        const array=time.split('T')
+        time=array.join(' ')
+        const stroka=`${value}`+` ${time}`
+        setValue(stroka)
+
+    };
     return (
         <Container maxWidth="xs" className={classes.root}>
-            <h2>Номер обращения: {post.id}</h2>
-            {/*<div>{post.classification.type}</div>*/}
-            {isLoading
-                ? <Loader/>
-                :  <div>
-                        <div><i>Медицинское учреждение: {post.medical_institution} </i></div>
-                        <div>Содержание:</div>
-                        <div>{post.text} </div>
-                    </div>
+            {isPostsLoading
+                ? <div style={{display:'flex',justifyContent:'center', marginTop:50}}><Loader/></div>
+                : <PostIdPageNum post={post} state={state}/>
             }
+
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Typography variant="h6">Ответ на письмо</Typography>
                 </Grid>
             </Grid>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <Grid item xs={12}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={isLoadings}
+                        className={classes.but}
+                        onClick={onSubmitFun1}
+                    >
+                        ФИО
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={isLoadings}
+                        className={classes.but}
+                        onClick={onSubmitFun2}
+                    >
+                        Телефон
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={isLoadings}
+                        className={classes.but}
+                        onClick={onSubmitFun3}
+                    >
+                        Дата обращения
+                    </Button>
+                </Grid>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Controller
@@ -102,9 +166,10 @@ const PostIdPage = () => {
                                     id="filled-multiline-static"
                                     label="Ответ"
                                     multiline
-
                                     variant="filled"
                                     helperText={errors.text?.message}
+                                    value={value}
+                                    onChange={event=>setValue(event.target.value)}
                                 />
                             )}
                         />
@@ -118,11 +183,11 @@ const PostIdPage = () => {
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    error={Boolean(errors.classific?.message)}
+                                    error={Boolean(errors.classification?.message)}
                                     fullWidth={true}
                                     label="Классификация"
                                     variant="filled"
-                                    helperText={errors.classific?.message}
+                                    helperText={errors.classification?.message}
                                 />
                             )}
                         />
@@ -133,6 +198,7 @@ const PostIdPage = () => {
                             color="primary"
                             type="submit"
                             disabled={isLoadings}
+                            className={classes.but}
                         >
                             Отправить
                         </Button>

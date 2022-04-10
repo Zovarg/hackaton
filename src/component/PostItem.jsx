@@ -2,7 +2,29 @@ import React from 'react'
 import MyButton from './UI/button/MyButton'
 import {useNavigate} from 'react-router-dom'
 import cl from "./Profile.module.css"
+import {
+    TextField,
+    Grid,
+    makeStyles,
+    Container,
+    Button,
+    Typography,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+    but: {
+        background: '#e8f3f2',
+        margin:'10px',
+        '&:hover': {
+            backgroundColor: 'white',
+
+        }
+    },
+
+}));
+
 const PostItem = (props) => {
+    const classes = useStyles();
     const router= useNavigate()
     return (
 
@@ -14,12 +36,13 @@ const PostItem = (props) => {
                 <div>
                     {props.post.text}
                 </div>
-                <MyButton onClick={()=>router(`/posts/${props.post.id}`)}>
+                <Button color="inherit" onClick={()=>router(`/posts/${props.post.id}`)}  className={classes.but}>
                     Открыть
-                </MyButton>
-                <MyButton onClick={() => props.remove(props.post)}>
+                </Button>
+                <Button color="inherit" onClick={() => props.remove(props.post)}  className={classes.but}>
                     Удалить
-                </MyButton>
+                </Button>
+
             </div>
     )
 }

@@ -2,9 +2,12 @@ import React, {useEffect, useState} from 'react'
 import {useFetching} from "../../hooks/useFetching";
 import Loader from "../../component/UI/Loader/loader";
 import PostList from "../../component/PostList";
-import {Container} from "@material-ui/core";
 import api from "../../services/api";
+import {Container} from "@material-ui/core";
+
+
 const Profile = () => {
+
   const [posts, setPosts]=useState([])
   const [fetchPosts,isPostsLoading,postError]=useFetching(async()=>{
     const response=await api.auth.getDate();

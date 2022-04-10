@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
   },
+  but: {
+    background: '#639593',
+  },
   buttonSpacing: {
     marginLeft: theme.spacing(1),
   },
@@ -103,6 +106,7 @@ function Login() {
               color="primary"
               type="submit"
               disabled={isLoading}
+              className={classes.but}
             >
               Вход
             </Button>

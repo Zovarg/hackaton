@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
   },
+  but: {
+    background: '#639593',
+  },
 }));
 
 function Home() {
@@ -44,13 +47,8 @@ function Home() {
       });
 
     } catch (e) {
-      if (e.response.status === 422) {
-        Object.keys(e.response.data.errors).forEach((key) => {
-          setError(key, {
-            type: "manual",
-            message: e.response.data.errors[key],
-          });
-        });
+      if (e.response.status) {
+       console.log(e.response.status)
       }
     } finally {
       setIsLoading(false);
@@ -170,6 +168,7 @@ function Home() {
                   color="primary"
                   type="submit"
                   disabled={isLoading}
+                  className={classes.but}
               >
                 Оправить форму
               </Button>

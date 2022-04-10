@@ -1,3 +1,4 @@
+
 import {
   AppBar,
   Toolbar,
@@ -9,16 +10,21 @@ import { Link, useNavigate } from "react-router-dom";
 import "./App.css";
 import Routes from "./routes/Routes";
 import useAuth from "./hooks/useAuth";
+import logo from "./logo.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+
     flexGrow: 1,
+  },
+  nav: {
+    background: '#639593',
   },
   rightToolbar: {
     flexGrow: 1,
   },
   title: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -34,22 +40,26 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" >
+      <AppBar position="static" className={classes.nav}>
         <Toolbar >
-          <Typography variant="h6" className={classes.title}>
+          <img
+              src={logo}
+          />
+          <Typography variant="h6" className={classes.title}  sx={{ mr: 2, display: { xs: 'none', md: 'none' } }}>
             HealthCare
           </Typography>
-          <div className={classes.rightToolbar}>
-          </div>
+
           {auth.isLoaded &&
             (auth.user ? (
               <>
-                <Button color="inherit" component={Link} to="/statistic">
+              <div className={classes.rightToolbar}>
+                <Button color="inherit" component={Link} to="/statistic" >
                   Статистика
                 </Button>
                 <Button color="inherit" component={Link} to="/posts">
                   Обращения
                 </Button>
+              </div>
                 <Button color="inherit" onClick={onLogOut}>
                   Выйти
                 </Button>
@@ -69,3 +79,4 @@ function App() {
 }
 
 export default App;
+

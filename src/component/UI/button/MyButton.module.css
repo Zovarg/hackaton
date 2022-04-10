@@ -22,7 +22,7 @@
     height: 0;
     width: 100%;
     z-index: -1;
-    background: linear-gradient(180deg,  #757de8, #757de8, #757de8);
+    background: linear-gradient(180deg,  #74697c, #a696b2);
     transition: .8s cubic-bezier(.165, .84, .44, 1);
 }
 .myBtn:hover {
