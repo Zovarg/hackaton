@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useFetching} from "../../hooks/useFetching";
 import api from "../../services/api";
@@ -8,7 +8,6 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import validationSchema from "../PostIdPage/validation";
 import PostIdPageNum from "./PostIdPageNum";
-import PostList from "../../component/PostList";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,10 +34,22 @@ const PostIdPage = () => {
     const [state,setState] = useState('');
     const [fetchPosts,isPostsLoading,postError] = useFetching(async (id) => {
         const response = await api.auth.getDate()
+        const templ = await api.auth.getTemplate()
+
         {response.data.map((poster, index)=>{
            if(poster.id==id){
                setPost(poster);
                setState(poster.classification.type);
+               templ.data.map((tmpl, index)=>{
+                   if(tmpl.classification.type==poster.classification.type){
+                       let time=poster.created_at.slice(0, 19)
+                       const array=time.split('T')
+                       time=array.join(' ')
+                       const stroka=`${value}`+` ${time}`
+                       const changeString= tmpl.text.replace( /\${fullname}/,poster.user_full_name).replace( /\${date}/,stroka).replace( /\${phone}/,poster.user_phone).replace( /\${institution}/,poster.medical_institution)
+                       setValue(changeString)
+                   }
+               })
                reset({
                    classification: poster.classification.type,
                });
@@ -70,11 +81,8 @@ const PostIdPage = () => {
         try {
             setIsLoadings(true);
             const destruction={...data}
-            if(destruction.classification==""){
+            destruction.text=value
             const { data: userData } = await api.auth.createReview({'text':destruction.text,'request_id':post.id,'classification':post.classification.type});
-              }
-            else {const { data: userData } = await api.auth.createReview({...data,'request_id':post.id});
-                }
             const redir=()=>router(`/posts`);
             redir();
         } catch (e) {
@@ -100,7 +108,7 @@ const PostIdPage = () => {
     };
     const onSubmitFun3 =  (e) => {
         e.preventDefault()
-        let time=post.updated_at.slice(0, 19)
+        let time=post.created_at.slice(0, 19)
         const array=time.split('T')
         time=array.join(' ')
         const stroka=`${value}`+` ${time}`

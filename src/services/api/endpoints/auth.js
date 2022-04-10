@@ -9,6 +9,7 @@ const endpoints = {
   createReview: (data) => axios.post("/create_review", data),
   deletePost: (data) => axios.delete("/create_review", data),
   getStats: () => axios.get("/getstats"),
+  getTemplate: () => axios.get("/getTemplateTexts"),
 };
 
 export default endpoints;

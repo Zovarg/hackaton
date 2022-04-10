@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-  text: yup.string().required(),
+  text: yup.string(),
   classification: yup.string(),
 
 });
